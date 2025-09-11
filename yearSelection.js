@@ -50,6 +50,7 @@ export default class YearSelection extends LightningElement {
                     })
                     .catch(error => {
                         console.error('Error loading Moment.js:', error);
+                        console.error('Error loading Moment.js:', error);
                     });
         }
     }
