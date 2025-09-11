@@ -1,0 +1,87 @@
+.custom-container{
+	color : black;
+}
+
+.sldsbox {
+	border-radius: var(--slds-g-radius-border-3);
+}
+
+
+.current-month {
+    font-weight: bold;
+    color: #000;
+}
+
+.today {
+    background-color: skyblue;
+	border-radius: var(--slds-g-radius-border-circle);
+}
+.calendar__weekdays th {
+    font-weight: 600;
+    text-align: center;
+}
+
+.calendar__body td {
+    cursor: pointer;
+    border: none;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.calendar__body th {
+    border-bottom: none;
+    font-weight: 600;
+    text-align: center;
+}
+
+.not-today {
+  opacity: 0.8;
+}
+
+.other-month {
+  color: gray;
+}
+
+/* .calendar-date-circle {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    text-align: center;
+    color: #333;
+} */
+
+
+.calendar-date-circle {
+    display: inline-block;
+    width: 2rem; /* Adjust size */
+    height: 2rem;
+    line-height: 2rem;
+    border-radius: 50%;
+    background-color: #e0e0e0; /* Circle background color */
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1rem;
+    color: #333; /* Text color */
+}
+
+.selected-date {
+    background-color: #0070d2; /* Blue highlight */
+    color: white;
+}
+
+/* .selected-date.today {
+    background-color: #005fb2; 
+    border: 2px solid white; 
+    color: #fff;
+} */
+
+.today-selected {
+    background-color: #0049a7;
+    color: #fff;
+    border: 2px solid orange; /* Optional */
+}
+
+

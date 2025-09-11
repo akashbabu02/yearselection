@@ -1,0 +1,168 @@
+<template>
+    <lightning-card title="Calender">
+        <div class="slds-m-around_medium">
+    
+            <lightning-icon icon-name='standard:date_input' alternative-text='date_input' size='small' title='date_input'
+                onclick={openCalender}></lightning-icon>
+    
+            <template if:true={isCalender}>
+                <!-- Modal/Popup Box LWC starts here -->
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                    aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container" style="width: 25rem;">
+                        <!-- Modal/Popup Box LWC header here -->
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                                        <lightning-icon icon-name="utility:close"
+                                            alternative-text="close"
+                                            variant="inverse"
+                                            size="small" ></lightning-icon>
+                                        <span class="slds-assistive-text">Close</span>
+                                    </button>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Schedule Meeting</h2>
+                        </header>
+                        <!-- Modal/Popup Box LWC body starts here -->
+                        <div class="slds-modal__content slds-p-around_small" id="modal-content-id-1" style="height:520px">
+                            <div class="slds-box sldsbox" style="height:405px">
+                                <div class="">
+                                    <div class="slds-page-header__row slds-page-header__row_gutters">
+                                        <div class="slds-page-header__col-details">
+                                            <ul class="slds-page-header__detail-row slds-align_absolute-center" style="padding:0px !important; ">
+                                                <li class="slds-page-header__detail-block">
+                                                    <div>
+                                                        <lightning-button-icon icon-name="utility:chevronleft"
+                                                            variant="bare" onclick={handlePrevMonth}
+                                                            style="cursor: pointer;"></lightning-button-icon>
+                                                    </div>
+                                                </li>
+                                                <li class="slds-page-header__detail-block">
+                                                    <div title="Field 2 (3)">{selectedMonthLabel}
+                                                    </div>
+                                                </li>
+                                                <li class="slds-page-header__detail-block">
+                                                    <lightning-button-icon icon-name="utility:chevronright" variant="bare"
+                                                        onclick={handleNextMonth} style="cursor: pointer;">
+                                                    </lightning-button-icon>
+                                                </li>
+                                                <li class="">
+                                                    <div>
+                                                        <div class="slds-form-element">
+                                                            <div class="slds-form-element__control">
+                                                                <div class="slds-combobox_container">
+                                                                    <div
+                                                                        class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click yearOpen">
+                                                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                                                            role="none">
+                                                                            <div role="combobox" tabindex="0"
+                                                                                class="slds-input_faux slds-combobox__input"
+                                                                                aria-labelledby="combobox-label-id-133 combobox-id-2-selected-value"
+                                                                                aria-controls="listbox-id-5"
+                                                                                aria-expanded="true" aria-haspopup="listbox"
+                                                                                type="text" value={selectedYear}
+                                                                                onclick={handleYearClick}>
+                                                                                <span class="slds-truncate" style="color: black;">{selectedYear}</span>
+                                                                            </div>
+                                                                            <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                                                <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"  xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 15 15"><path fill="black" d="M7.5 12L0 4h15l-7.5 8Z"/></svg>                                        
+                                                            </span>
+                                                                        </div>
+    
+                                                                        <div id="listbox-id-8"
+                                                                            class="slds-dropdown slds-dropdown_length-3"
+                                                                            role="listbox">
+                                                                            <ul class="slds-listbox slds-listbox_vertical"
+                                                                                role="presentation"
+                                                                                style="height: 10rem;overflow-x: hidden;">
+                                                                                <template for:each={years} for:item="year">
+                                                                                    <li role="presentation"
+                                                                                        class="slds-listbox__item"
+                                                                                        key={year.value}
+                                                                                        data-name={year.label}
+                                                                                        data-key={year.label}
+                                                                                        data-value={year.label}
+                                                                                        onclick={handleOptionClick}
+                                                                                        style="list-style-type: none;">
+                                                                                        <div id={year.label}
+                                                                                            class="slds-media slds-listbox__option slds-media_small"
+                                                                                            data-name={year.label}
+                                                                                            role="option">
+                                                                                            <span class="slds-media__figure slds-listbox__option-icon slds-p-top_xx-small">
+                                                                                <lightning-icon if:true={year.isSelected} data-name={year.label} icon-name='utility:check' alternative-text='check' size='xx-small' title='check'></lightning-icon>                                                                                
+                                                                            </span>
+                                                                                            <span data-name={year.label} class="slds-media__body">
+    
+                                                                            <span class="slds-truncate" style="margin-bottom: 15px;" data-name={year.label} title={year.label} >
+                                                                                {year.label}
+                                                                            </span>
+                                                                                            </span>
+                                                                                        </div>
+                                                                                    </li>
+                                                                                </template>
+                                                                            </ul>
+    
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="slds-p-top_xx-small" style="border-bottom: 1px solid #d8dde6; padding-bottom: 0.25rem;"></div>
+                                    <div class="Weeks slds-m-top_small">
+                                        <table class="calendar__body slds-table slds-table_cell-buffer">
+                                            <thead>
+                                                <tr class="calendar__weekdays">
+                                                    <th>Sun</th>
+                                                    <th>Mon</th>
+                                                    <th>Tue</th>
+                                                    <th>Wed</th>
+                                                    <th>Thu</th>
+                                                    <th>Fri</th>
+                                                    <th>Sat</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <template for:each={calendarWeeks} for:item="week">
+                                                    <tr key={week.id}>
+                                                        <template for:each={week.days} for:item="day">
+                                                            <td key={day.fullDate} data-date={day.fullDate} class={day.isToday} onclick={handleDateClick}>
+                                                                 <span class={day.cssClass}>{day.date}</span>
+                                                            </td>
+                                                        </template>
+                                                    </tr>
+                                                </template> 
+                                            </tbody>
+                                        </table>
+    
+                                    </div>
+                                </div>
+                            </div>
+                            <span class="slds-text-align_right slds-p-bottom_small">
+                                        <p>{isDateCount} Selected Dates</p>
+                            </span>
+                            <div>
+                                 <lightning-combobox
+                                    name={dateValue}
+                                    label="Selected Date"
+                                    value={dateValue}
+                                    options={dates}
+                                    onchange={handleChange}>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+    
+    
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                            <button class="slds-button slds-button_brand" onclick={submitDetails} title="Submit">Submit</button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </template>
+        </div>
+    </lightning-card>
+ </template>
