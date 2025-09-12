@@ -1,4 +1,4 @@
-name: Salesforce JWT Auth
+name: Salesforce JWT auth
 
 on:
   workflow_dispatch:
