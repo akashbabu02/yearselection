@@ -1,4 +1,4 @@
-name: Salesforce JWT auth
+name: Salesforce JWT Auth
 
 on:
   workflow_dispatch:
@@ -19,13 +19,9 @@ jobs:
       - name: Install Salesforce CLI
         run: npm install --global @salesforce/cli
 
-      # Recreate server.key from base64 secret
-      - name: Add JWT key
-  run: echo "${{ secrets.SF_JWT_KEY }}" | base64 --decode > server.key
-
-      # Login to Salesforce Org
       - name: Authorize Salesforce Org with JWT
         run: |
+          echo "${{ secrets.SF_JWT_KEY }}" | base64 --decode > server.key
           sf org login jwt \
             --client-id "${{ secrets.SF_CLIENT_ID }}" \
             --jwt-key-file server.key \
@@ -33,7 +29,7 @@ jobs:
             --instance-url https://login.salesforce.com \
             --set-default-dev-hub
 
-      # Verify connection
       - name: Verify Org Connection
         run: sf org display --target-org "${{ secrets.SF_USERNAME }}"
+
 
