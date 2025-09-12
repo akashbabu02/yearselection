@@ -1,11 +1,36 @@
-- name: Checkout repo
-  uses: actions/checkout@v3
+name: Salesforce JWT Auth
 
-- name: Salesforce JWT Auth
-  run: sfdx auth:jwt:grant \
-    --clientid ${{ secrets.SF_CLIENT_ID }} \
-    --jwtkeyfile ./assert/server.key \
-    --username ${{ secrets.SF_USERNAME }} \
-    --setdefaultdevhubusername
+on:
+  workflow_dispatch:
 
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
 
+    steps:
+      # Step 1: Checkout the repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Setup Node.js (required for Salesforce CLI)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Step 3: Install Salesforce CLI
+      - name: Install Salesforce CLI
+        run: npm install --global sfdx-cli
+
+      # Step 4: Authenticate to Salesforce using JWT
+      - name: Salesforce JWT Authentication
+        run: |
+          sfdx auth:jwt:grant \
+            --clientid $SF_CLIENT_ID \
+            --jwtkeyfile ./assert/server.key \
+            --username $SF_USERNAME \
+            --setdefaultdevhubusername
+
+      # Step 5: Verify authentication
+      - name: Verify Salesforce Org
+        run: sfdx force:org:display
