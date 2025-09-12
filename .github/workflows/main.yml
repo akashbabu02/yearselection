@@ -19,12 +19,12 @@ jobs:
       - name: Install Salesforce CLI
         run: npm install --global @salesforce/cli
 
-      # Recreate server.key from secret
+      # Recreate server.key from base64 secret
       - name: Add JWT key
         run: |
-          echo "${{ secrets.SF_JWT_KEY }}" > server.key
-          ls -l server.key   # confirm file exists
-          cat server.key | head -3  # show first 3 lines for debug
+          echo "${{ secrets.SF_JWT_KEY }}" | base64 --decode > server.key
+          file server.key
+          head -3 server.key
 
       # Login to Salesforce Org
       - name: Authorize Salesforce Org with JWT
@@ -39,5 +39,4 @@ jobs:
       # Verify connection
       - name: Verify Org Connection
         run: sf org display --target-org "${{ secrets.SF_USERNAME }}"
-
 
