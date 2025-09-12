@@ -50,6 +50,7 @@ export default class YearSelection extends LightningElement {
                     })
                     .catch(error => {
                         console.error('Error loading Moment.js:', error);
+                        console.error('Error loading Moment.js:', error);
                     });
         }
     }
@@ -157,6 +158,7 @@ export default class YearSelection extends LightningElement {
         const moment = this.moment;
 
         console.log('OUTPUT : year', year);
+         console.log('OUTPUT : year', year);
         console.log('OUTPUT : month', month);
 
         // Define the start and end of the given month and year
