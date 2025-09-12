@@ -20,12 +20,13 @@ jobs:
         run: npm install --global @salesforce/cli
 
       - name: Authorize Salesforce Org with JWT
-        run: |
-          echo "${{ secrets.SF_JWT_KEY }}" | base64 --decode > server.key
-          sf org login jwt \
-            --client-id "${{ secrets.SF_CLIENT_ID }}" \
-            --jwt-key-file server.key \
-            --username "${{ secrets.SF_USERNAME }}" \
-            --instance-url https://login.salesforce.com \
-            --set-default-dev-hub
+  run: |
+    printf "%s" "${{ secrets.SF_JWT_KEY }}" | base64 --decode > server.key
+    sf org login jwt \
+      --client-id "${{ secrets.SF_CLIENT_ID }}" \
+      --jwt-key-file server.key \
+      --username "${{ secrets.SF_USERNAME }}" \
+      --instance-url https://login.salesforce.com \
+      --set-default-dev-hub
+
 
