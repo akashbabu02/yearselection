@@ -1,7 +1,7 @@
 name: Salesforce JWT Auth
 
 on:
-  workflow_dispatch:   # allows manual trigger
+  workflow_dispatch:
 
 jobs:
   authorize:
@@ -16,14 +16,16 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install Salesforce CLI
-        run: npm install --global sfdx-cli
+      - name: Install Salesforce CLI (new)
+        run: npm install --global @salesforce/cli
 
       - name: Authorize Salesforce Org with JWT
         run: |
-          sfdx auth:jwt:grant \
+          sf org login jwt \
             --client-id 3MVG9rZjd7MXFdLhOoHYc1zXvLCUwK5WREl1hZlIOeHwpVBWs9YLxAttA0YAquVxre46E6fspjYFUl4sTJpzL \
             --jwt-key-file server.key \
             --username amit.salesforce21@gmail.com \
             --instance-url https://login.salesforce.com \
             --set-default-dev-hub
+
+
