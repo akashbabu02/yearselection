@@ -21,10 +21,9 @@ jobs:
 
       - name: Authorize Salesforce Org with JWT
         run: |
-          printf "%s" "${{ secrets.SF_JWT_KEY }}" | base64 --decode > server.key
           sf org login jwt \
             --client-id "${{ secrets.SF_CLIENT_ID }}" \
-            --jwt-key-file server.key \
+            --jwt-key-file "${{ secrets.SF_JWT_KEY }}" \
             --username "${{ secrets.SF_USERNAME }}" \
             --instance-url https://login.salesforce.com \
             --set-default-dev-hub
