@@ -8,31 +8,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout your repo
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # 3️⃣ Install Salesforce CLI
       - name: Install Salesforce CLI
         run: npm install --global @salesforce/cli
 
-      # 4️⃣ Create server.key from secret (add your private key in SF_JWT_KEY)
+      # Recreate server.key from secret
       - name: Add JWT key
-        run: echo "${{ secrets.SF_JWT_KEY }}" > server.key
+        run: |
+          echo "${{ secrets.SF_JWT_KEY }}" > server.key
+          ls -l server.key   # confirm file exists
+          cat server.key | head -3  # show first 3 lines for debug
 
-      # 5️⃣ Authorize Salesforce Org using JWT
+      # Login to Salesforce Org
       - name: Authorize Salesforce Org with JWT
         run: |
           sf org login jwt \
-            --client-id ${{ secrets.SF_CLIENT_ID }} \
+            --client-id "${{ secrets.SF_CLIENT_ID }}" \
             --jwt-key-file server.key \
-            --username ${{ secrets.SF_USERNAME }} \
+            --username "${{ secrets.SF_USERNAME }}" \
             --instance-url https://login.salesforce.com \
             --set-default-dev-hub
+
+      # Verify connection
+      - name: Verify Org Connection
+        run: sf org display --target-org "${{ secrets.SF_USERNAME }}"
+
 
