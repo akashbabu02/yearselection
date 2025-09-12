@@ -21,10 +21,7 @@ jobs:
 
       # Recreate server.key from base64 secret
       - name: Add JWT key
-        run: |
-          cat <<'EOF' > server.key
-    ${{ secrets.SF_JWT_KEY }}
-    EOF
+  run: echo "${{ secrets.SF_JWT_KEY }}" | base64 --decode > server.key
 
       # Login to Salesforce Org
       - name: Authorize Salesforce Org with JWT
