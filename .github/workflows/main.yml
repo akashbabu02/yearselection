@@ -22,9 +22,9 @@ jobs:
       - name: Authenticate with JWT
         run: |
           sf org login jwt \
-            --client-id ${{ secrets.SF_CONSUMER_KEY }} \
+            --client-id 3MVG9rZjd7MXFdLhOoHYc1zXvLCUwK5WREl1hZlIOeHwpVBWs9YLxAttA0YAquVxre46E6fspjYFUl4sTJpzL \
             --jwt-key-file assets/server.key \
-            --username ${{ secrets.SF_USERNAME }} \
+            --username minuscule@interarch.com \
             --instance-url https://login.salesforce.com \
             --alias myOrg \
             --set-default
