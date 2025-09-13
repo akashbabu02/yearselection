@@ -1,34 +1,45 @@
-name: Salesforce JWT Auth
-
+name: Salesforce Build Pipeline - QA
+ 
 on:
+  push:
+    branches:
+      - build/QA
   workflow_dispatch:
-
+ 
+permissions:
+  contents: read
+  pull-requests: write
+ 
 jobs:
-  authorize:
+  salesforce-deploy:
     runs-on: ubuntu-latest
-
+    environment: QA
+ 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
         with:
-          node-version: '18'
-
-      - name: Install Salesforce CLI
-        run: npm install --global @salesforce/cli
-
-      - name: Authenticate with JWT
+          fetch-depth: 0
+ 
+      - name: 🧰 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+ 
+      - name: 🛠️ Install Salesforce CLI and Plugins (sf + sfdx)
+        shell: bash
+        run: |
+          echo 'Installing sf CLI'
+          npm install -g @salesforce/cli@latest
+ 
+          # echo 'Installing sfdx-git-delta plugin'
+          # echo y | sfdx plugins:install sfdx-git-delta
+ 
+      - name: 🔐 Authenticate with Salesforce (JWT Auth)
         run: |
           sf org login jwt \
-            --client-id 3MVG9rZjd7MXFdLhOoHYc1zXvLCUwK5WREl1hZlIOeHwpVBWs9YLxAttA0YAquVxre46E6fspjYFUl4sTJpzL \
-            --jwt-key-file assets/server.key \
-            --username minuscule@interarch.com \
+            --client-id ${{ secrets.SF_CONSUMER_KEY }} \
+            --jwt-key-file assert/server.key \
+            --username ${{ secrets.SF_USERNAME }} \
             --instance-url https://login.salesforce.com \
-            --alias myOrg \
             --set-default
-
-      - name: Verify Auth
-        run: sf org display --target-org myOrg
-
