@@ -26,9 +26,9 @@ jobs:
       - name: Salesforce JWT Authentication
         run: |
           sfdx auth:jwt:grant \
-            --clientid $SF_CLIENT_ID \
+            --clientid 3MVG9rZjd7MXFdLhOoHYc1zXvLCUwK5WREl1hZlIOeHwpVBWs9YLxAttA0YAquVxre46E6fspjYFUl4sTJpzL \
             --jwtkeyfile ./assert/server.key \
-            --username $SF_USERNAME \
+            --username minuscule@interarch.com \
             --setdefaultdevhubusername
 
       # Step 5: Verify authentication
