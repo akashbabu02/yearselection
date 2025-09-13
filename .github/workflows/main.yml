@@ -8,29 +8,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repo
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      # Step 2: Setup Node.js (required for Salesforce CLI)
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      # Step 3: Install Salesforce CLI
       - name: Install Salesforce CLI
-        run: npm install --global sfdx-cli
+        run: npm install --global @salesforce/cli
 
-      # Step 4: Authenticate to Salesforce using JWT
-      - name: Salesforce JWT Authentication
+      - name: Authenticate with JWT
         run: |
-          sfdx auth:jwt:grant \
-            --clientid 3MVG9rZjd7MXFdLhOoHYc1zXvLCUwK5WREl1hZlIOeHwpVBWs9YLxAttA0YAquVxre46E6fspjYFUl4sTJpzL \
-            --jwtkeyfile ./assert/server.key \
-            --username minuscule@interarch.com \
-            --setdefaultdevhubusername
+          sf org login jwt \
+            --client-id ${{ secrets.SF_CONSUMER_KEY }} \
+            --jwt-key-file assets/server.key \
+            --username ${{ secrets.SF_USERNAME }} \
+            --instance-url https://login.salesforce.com \
+            --alias myOrg \
+            --set-default
 
-      # Step 5: Verify authentication
-      - name: Verify Salesforce Org
-        run: sfdx force:org:display
+      - name: Verify Auth
+        run: sf org display --target-org myOrg
+
