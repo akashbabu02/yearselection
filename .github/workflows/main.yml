@@ -1,0 +1,45 @@
+name: Salesforce Build Pipeline - QA
+ 
+on:
+  push:
+    branches:
+      - build/QA
+  workflow_dispatch:
+ 
+permissions:
+  contents: read
+  pull-requests: write
+ 
+jobs:
+  salesforce-deploy:
+    runs-on: ubuntu-latest
+    environment: QA
+ 
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+ 
+      - name: 🧰 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+ 
+      - name: 🛠️ Install Salesforce CLI and Plugins (sf + sfdx)
+        shell: bash
+        run: |
+          echo 'Installing sf CLI'
+          npm install -g @salesforce/cli@latest
+ 
+          # echo 'Installing sfdx-git-delta plugin'
+          # echo y | sfdx plugins:install sfdx-git-delta
+ 
+      - name: 🔐 Authenticate with Salesforce (JWT Auth)
+        run: |
+          sf org login jwt \
+            --client-id ${{ secrets.SF_JWT_KEY }} \
+            --jwt-key-file assert/server.key \
+            --username ${{ secrets.SF_USERNAME }} \
+            --instance-url https://login.salesforce.com \
+            --set-default

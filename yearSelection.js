@@ -14,6 +14,7 @@ export default class YearSelection extends LightningElement {
     @track calendarWeeks = [];
 
     openCalender(){
+        
         this.isCalender = true;
         // setTimeout(() => {
         //    this.initalRender();
@@ -59,7 +60,7 @@ export default class YearSelection extends LightningElement {
         this.selectedMonthLabel = this.monthNames[this.selectedMonth];
     }
 
-    handleNextMonth() {
+    handleNextMonth() {      
         this.selectedMonth = (this.selectedMonth + 1) % 12;
         if (this.selectedMonth === 0) { // Wrapped from Dec to Jan
             this.selectedYear += 1;
@@ -158,6 +159,7 @@ export default class YearSelection extends LightningElement {
         const moment = this.moment;
 
         console.log('OUTPUT : year', year);
+         console.log('OUTPUT : year', year);
         console.log('OUTPUT : month', month);
 
         // Define the start and end of the given month and year
